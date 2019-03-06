@@ -10,6 +10,8 @@ var clock = new THREE.Clock();
 // How we will see the scene
 var camera = new THREE.PerspectiveCamera(90, WINDOW_WIDTH / WINDOW_HEIGHT, 1, 10000);
 
+var reticle = vreticle.Reticle(camera);
+
 window.camera = camera;
 
 // Position the camera slightly above and in front of the scene
@@ -149,32 +151,32 @@ pano.renderDepth = 2;
 pano.rotation.set( 0, -90 * Math.PI / 180, 0 );
 scene.add(pano);
 
-var canvas = document.getElementById('canvas');
-var ctx = canvas.getContext('2d');
+// var canvas = document.getElementById('canvas');
+// var ctx = canvas.getContext('2d');
 
-ctx.font = '20pt Arial';
-ctx.fillStyle = 'red';
-ctx.fillRect(0, 0, canvas.width, canvas.height);
-ctx.fillStyle = 'white';
-ctx.fillRect(10, 10, canvas.width - 20, canvas.height - 20);
-ctx.fillStyle = 'black';
-ctx.textAlign = "center";
-ctx.textBaseline = "middle";
-ctx.fillText(new Date().getTime(), canvas.width / 2, canvas.height / 2);
+// ctx.font = '20pt Arial';
+// ctx.fillStyle = 'red';
+// ctx.fillRect(0, 0, canvas.width, canvas.height);
+// ctx.fillStyle = 'white';
+// ctx.fillRect(10, 10, canvas.width - 20, canvas.height - 20);
+// ctx.fillStyle = 'black';
+// ctx.textAlign = "center";
+// ctx.textBaseline = "middle";
+// ctx.fillText(new Date().getTime(), canvas.width / 2, canvas.height / 2);
 
-var textTexture = new THREE.Texture(canvas);
-var textMaterial = new THREE.MeshBasicMaterial({ map: textTexture });
-var textGeometry = new THREE.BoxGeometry( 50, 50, 50 );
-var textMesh = new THREE.Mesh( textGeometry, textMaterial );
-textMesh.position.z = 10;
-textMesh.position.x = 10;
-scene.add( textMesh );
+// var textTexture = new THREE.Texture(canvas);
+// var textMaterial = new THREE.MeshBasicMaterial({ map: textTexture });
+// var textGeometry = new THREE.BoxGeometry( 50, 50, 50 );
+// var textMesh = new THREE.Mesh( textGeometry, textMaterial );
+// textMesh.position.z = 10;
+// textMesh.position.x = 10;
+// scene.add( textMesh );
 
 // Lights!
-var dirLight2 = new THREE.DirectionalLight( 0xffffff, 0.75);
-dirLight2.position.set( -1, 1, textMesh.position.z + 10).normalize();
+// var dirLight2 = new THREE.DirectionalLight( 0xffffff, 0.75);
+// dirLight2.position.set( -1, 1, textMesh.position.z + 10).normalize();
 
-scene.add(dirLight2);
+// scene.add(dirLight2);
 
 // var fontLoader = new THREE.FontLoader();
 
@@ -201,6 +203,120 @@ scene.add(dirLight2);
 // skyBox.geometry.scale( 1, 1, - 1 );
 // scene.add( skyBox );
 
+// var fontLoader = new THREE.FontLoader('fonts/helvetiker_bold.typeface.json', (font) => {
+//   console.log('font loaded');
+//   var textGeometry = new THREE.TextGeometry('Test', {
+//     font: font,
+//     size: 80,
+// 		height: 5,
+// 		curveSegments: 12,
+// 		bevelEnabled: true,
+// 		bevelThickness: 10,
+// 		bevelSize: 8,
+// 		bevelSegments: 5
+//   });
+
+//   var mesh = new THREE.Mesh(textGeometry, material);
+
+//   mesh.position.z = 10;
+//   mesh.position.y = 10;
+
+//   scene.add(mesh);
+// });
+
+
+var loader = new THREE.FontLoader();
+
+loader.load( 'fonts/helvetiker_regular.typeface.json', function ( font ) {
+  console.log('font-loaded');
+	// var geometry = new THREE.TextGeometry( 'Hello three.js!', {
+	// 	font: font,
+	// 	size: 80,
+	// 	height: 5,
+	// 	curveSegments: 12,
+	// 	bevelEnabled: true,
+	// 	bevelThickness: 10,
+	// 	bevelSize: 8,
+	// 	bevelSegments: 5
+  // } );
+  var textGeometry = new THREE.TextGeometry('0', {
+        font: font,
+        size: 80,
+    		height: 5,
+    		curveSegments: 12,
+    		bevelEnabled: true,
+    		bevelThickness: 10,
+    		bevelSize: 8,
+    		bevelSegments: 5
+      });
+      var textGeometry1 = new THREE.TextGeometry('1', {
+        font: font,
+        size: 80,
+    		height: 5,
+    		curveSegments: 12,
+    		bevelEnabled: true,
+    		bevelThickness: 10,
+    		bevelSize: 8,
+    		bevelSegments: 5
+      });
+      var textGeometry2 = new THREE.TextGeometry('2', {
+        font: font,
+        size: 80,
+    		height: 5,
+    		curveSegments: 12,
+    		bevelEnabled: true,
+    		bevelThickness: 10,
+    		bevelSize: 8,
+    		bevelSegments: 5
+      });
+      var textGeometry3 = new THREE.TextGeometry('3', {
+        font: font,
+        size: 80,
+    		height: 5,
+    		curveSegments: 12,
+    		bevelEnabled: true,
+    		bevelThickness: 10,
+    		bevelSize: 8,
+    		bevelSegments: 5
+      });
+    
+      var mesh0 = new THREE.Mesh(textGeometry, material);
+      var mesh1 = new THREE.Mesh(textGeometry1, material);
+      var mesh2 = new THREE.Mesh(textGeometry2, material);
+      var mesh3 = new THREE.Mesh(textGeometry3, material);
+    
+      // mesh.position.z = 10;
+      // mesh.position.y = 10;
+
+      mesh0.position.set(-100, 10, -100);
+      mesh1.position.set(-100, 10, 100);
+      mesh2.position.set(-250, 10, 100);
+      mesh3.position.set(-250, 10, -100);
+    
+      reticle.add_collider(mesh0);
+      reticle.add_collider(mesh1);
+      reticle.add_collider(mesh2);
+      reticle.add_collider(mesh3);
+
+      mesh0.ongazelong = function(){
+        console.log("question0");
+      }
+      mesh1.ongazelong = function(){
+        console.log("question0");
+      }
+      mesh2.ongazelong = function(){
+        console.log("question0");
+      }
+      mesh3.ongazelong = function(){
+        console.log("question0");
+      }
+
+      scene.add(mesh0);
+      scene.add(mesh1);
+      scene.add(mesh2);
+      scene.add(mesh3);
+} );
+
 // Detect mobile devices in the user agent
 var is_mobile= /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
@@ -220,20 +336,30 @@ if (is_mobile) {
     controls.dragToLook = true;
 
     // Movement and roll speeds, adjust these and see what happens!
-    controls.movementSpeed = 20;
+    controls.movementSpeed = 80;
     controls.rollSpeed = Math.PI / 12;
 }
+var effect = new THREE.VREffect(renderer);
 
 // Render loop
 // This should go at the bottom of the script.
 function render() {
+
+  reticle.reticle_loop();
+
 
     // Get the difference from when the clock was last updated and update the controls based on that value.
     var delta = clock.getDelta();
     controls.update(delta);
 
     // Update the scene through the manager.
-    manager.render(scene, camera);
+    // manager.render(scene, camera);
+    if(is_mobile) {
+      effect.render(scene, camera);
+    }else {
+      manager.render(scene, camera);
+    }
+    
 
     // Call the render function again
     requestAnimationFrame( render );
