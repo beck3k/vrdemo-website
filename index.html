@@ -1,1 +1,33 @@
-the ting goes here
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>VR Demo</title>
+    <meta charset="utf-8">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <style>
+    html, body { margin:0; padding:0; overflow:hidden;}
+    </style>
+  </head>
+  <body>
+    <script>
+    WebVRConfig = {
+        // Forces availability of VR mode.
+        FORCE_ENABLE_VR: true,
+    };
+    </script>
+    <script src="js/es6-promise.min.js"></script>
+    <script src="js/three.min.js"></script>
+    <script src="js/three.flycontrols.js"></script>
+    <script src="js/three.terrainloader.js"></script>
+    <script src="js/VRControls.js"></script>
+    <script src="js/VREffect.js"></script>
+    <script src="js/webvr-polyfill.js"></script>
+    <script src="js/webvr-manager.js"></script>
+
+    <script src="js/main.js"></script>
+  </body>
+</html>
