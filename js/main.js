@@ -42,7 +42,7 @@ var manager = new WebVRManager(renderer, effect);
 
 // Lights!
 var dirLight = new THREE.DirectionalLight( 0xffffff, 0.75);
-dirLight.position.set( -1, 1, 1).normalize();
+dirLight.position.set( -1, 1, 200).normalize();
 
 var ambiLight = new THREE.AmbientLight(0x999999);
 
@@ -149,6 +149,33 @@ pano.renderDepth = 2;
 pano.rotation.set( 0, -90 * Math.PI / 180, 0 );
 scene.add(pano);
 
+var canvas = document.getElementById('canvas');
+var ctx = canvas.getContext('2d');
+
+ctx.font = '20pt Arial';
+ctx.fillStyle = 'red';
+ctx.fillRect(0, 0, canvas.width, canvas.height);
+ctx.fillStyle = 'white';
+ctx.fillRect(10, 10, canvas.width - 20, canvas.height - 20);
+ctx.fillStyle = 'black';
+ctx.textAlign = "center";
+ctx.textBaseline = "middle";
+ctx.fillText(new Date().getTime(), canvas.width / 2, canvas.height / 2);
+
+var textTexture = new THREE.Texture(canvas);
+var textMaterial = new THREE.MeshBasicMaterial({ map: textTexture });
+var textGeometry = new THREE.BoxGeometry( 50, 50, 50 );
+var textMesh = new THREE.Mesh( textGeometry, textMaterial );
+textMesh.position.z = 10;
+textMesh.position.x = 10;
+scene.add( textMesh );
+
+// Lights!
+var dirLight2 = new THREE.DirectionalLight( 0xffffff, 0.75);
+dirLight2.position.set( -1, 1, textMesh.position.z + 10).normalize();
+
+scene.add(dirLight2);
+
 // var fontLoader = new THREE.FontLoader();
 
 // var text = new THREE.TextGeometry('Test', {
@@ -193,7 +220,7 @@ if (is_mobile) {
     controls.dragToLook = true;
 
     // Movement and roll speeds, adjust these and see what happens!
-    controls.movementSpeed = 5;
+    controls.movementSpeed = 20;
     controls.rollSpeed = Math.PI / 12;
 }
 
