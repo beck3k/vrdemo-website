@@ -241,3 +241,10 @@ function render() {
 }
 
 render();
+
+function updateQuestion(text) {
+    $('.question').each(() => {
+        console.log(this);
+        $(this).text(text);
+    })
+}
